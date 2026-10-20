@@ -4,7 +4,10 @@ Sistema personal para **apuntar gastos desde el iPhone en segundos** y **ver en 
 
 - **Apuntar:** al pagar con Apple Pay salta un menú con el importe y el comercio ya rellenos; solo eliges carpeta y cuánto es tuyo. Para Bizum o efectivo hay un atajo manual.
 - **Guardar:** todo va a una hoja de Google Sheets que puedes abrir y editar a mano.
-- **Ver:** un dashboard web (móvil y PC) con totales, gasto por carpeta, evolución mensual, viajes y lista de gastos.
+- **Ver:** un dashboard web pensado para el móvil, con tres pestañas:
+  - **Resumen:** total del periodo con comparación, media diaria y previsión; donut «¿En qué se va?» por carpeta (toca una carpeta para ver sus subcarpetas); barras de los últimos 12 meses apiladas por carpeta; últimos gastos.
+  - **Gastos:** lista agrupada por día con buscador y filtros. **Toca un gasto para editarlo o borrarlo.**
+  - **Viajes:** total, días, media diaria y número de gastos de cada viaje.
 
 Coste: 0 €. Los datos viven solo en Google Drive; este repositorio contiene únicamente código.
 

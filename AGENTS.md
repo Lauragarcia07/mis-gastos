@@ -17,7 +17,7 @@ apps-script/          API (Google Apps Script, vinculado a la hoja "Mis Gastos")
 dashboard/            Web estática publicada en GitHub Pages (sin build, sin frameworks)
   index.html          Estructura
   styles.css          Estilos (tokens de color claros/oscuros en :root)
-  app.js              Lógica: carga datos, filtros, pintado
+  app.js              Lógica: carga datos, pestañas (Resumen/Gastos/Viajes), gráficos, edición
   config.js           URL pública de la API (nunca el token)
 docs/                 Documentación para humanos e IAs
 .github/workflows/    Publicación automática del dashboard
@@ -31,6 +31,10 @@ docs/                 Documentación para humanos e IAs
 4. Las **carpetas son datos, no código**: viven en la pestaña `Carpetas`. No las metas en el código (salvo `CARPETAS_INICIALES`, que solo se usa al crear la hoja).
 5. **Compatibilidad con los atajos**: el formato de etiqueta de carpeta es `"Carpeta / Subcarpeta"` y las respuestas tienen `ok`, `mensaje` / `error`. Si cambias la API, no rompas los campos existentes; añade campos nuevos. Si es inevitable, actualiza `docs/atajos.md` y avisa a la usuaria de que tiene que tocar los atajos.
 6. **Dashboard sin dependencias nuevas** salvo justificación. Chart.js va fijado por versión desde cdnjs.
+   - Diseño **móvil primero** (la usuaria lo mira en el iPhone). Prueba siempre a ~390 px de ancho, en claro y oscuro.
+   - Colores de carpeta: tokens `--c1…--c8` y `--c-gris` en `styles.css`; el orden lo da la pestaña Carpetas. No cicles colores ni generes tonos nuevos: lo que no cabe va en gris.
+   - Donut: máximo 6 trozos (5 + «Resto»). Barras apiladas: mismas reglas.
+   - Escrituras desde el navegador: `fetch` POST con `Content-Type: text/plain` (ver `enviar()` en app.js).
 7. Mantén la documentación al día: si cambias comportamiento, actualiza `docs/` y el README en el mismo cambio.
 
 ## Cómo desplegar cambios

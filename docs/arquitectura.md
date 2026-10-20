@@ -33,6 +33,8 @@
 | **Apps Script** como API | Vive dentro de la hoja, gratis, sin servidor que mantener. |
 | **Token compartido** en lugar de login de Google | Los Atajos no pueden hacer OAuth con comodidad. La web app es pública pero toda petición sin el token correcto se rechaza. |
 | **Dashboard estático** sin frameworks | Nada que compilar ni actualizar; cualquier IA o persona lo entiende leyendo 3 ficheros. |
+| **Colores fijos por carpeta** | Cada carpeta tiene siempre el mismo color (orden de la pestaña Carpetas → 8 tonos de una paleta validada para daltonismo; «Otros» en gris). El donut muestra como máximo 6 trozos (5 + «Resto»); la leyenda lista todas. |
+| **POST con `Content-Type: text/plain`** desde el dashboard | Apps Script no responde a la petición previa (preflight) de CORS; con text/plain el navegador no la hace. |
 | **Repo público** | GitHub Pages gratis. No contiene datos ni el token. |
 | **Solo se guarda tu parte** | Decisión de la usuaria: si pagas 100 € entre 5, se guardan 20 €. No hay seguimiento de deudas. |
 | **Carpetas en la hoja**, no en el código | Añadir/archivar carpetas no requiere desplegar nada. |
