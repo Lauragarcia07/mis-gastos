@@ -16,6 +16,27 @@ Necesitas dos valores (te los da quien configuró el proyecto; **no están en es
 
 Convenciones de esta guía: **negrita** = nombre de la acción (búscala en el buscador de acciones); `Nombre` = variable; "texto" = lo que escribes.
 
+## ⚠️ Lecciones aprendidas al montarlos (léelas antes de empezar)
+
+Estos son los tropiezos reales que hubo al montar los atajos en macOS/iOS en español (octubre 2026):
+
+1. **Nombres reales de las acciones** (varían entre versiones; busca por la palabra clave):
+   | En esta guía | Cómo aparece en Atajos en español | Busca |
+   |---|---|---|
+   | Establecer variable | **Definir variable** (icono naranja 𝑥) | `variable` |
+   | Elegir de la lista | **Seleccionar en** (icono azul de lista) | `seleccionar` |
+   | Elegir del menú | **Seleccionar en el menú** | `menú` |
+   | Solicitar entrada | **Pedir** [Texto/Número] con … | `solicitar` |
+   | De lo contrario / Finalizar si | **Si no** / **Terminar si** | `si` |
+   | Obtener contenido de URL | **Obtener contenido de** (icono **verde/azul de descarga**) | `URL` |
+2. **No uses "Obtener contenido de página web"** (icono de Safari). Descarga una página para leerla y no entiende las respuestas JSON de la API.
+3. **Huecos sin conectar.** Si una casilla sale en azul clarito ("Seleccionar en **Seleccionar**", "a **Entrada**"), está vacía: el atajo no avisa, simplemente usa "nada". Síntoma típico: no aparece la lista y se envía un valor vacío.
+4. **"Seleccionar variable" a veces no se queda** (al hacer clic en la burbuja vuelve a quedar vacío). Solución fiable: guarda el valor antes en una **variable con nombre** (p. ej. `Definir variable Todas`) y elígela directamente en el menú del hueco (no por "Seleccionar variable").
+5. **La condición del "Si" solo ofrece "tiene algún valor".** Haz clic en la variable de la condición → **Tipo: Texto**. Entonces aparecen *contiene*, *es*, etc.
+6. **Comprueba qué URL usa cada "Obtener contenido de".** La del menú tiene que usar el **Texto** `URL?accion=menu&token=TOKEN`; la del envío (POST) usa la variable `URL` sola. Si la del menú usa `URL` sola, la API responde "Token incorrecto" y la lista sale vacía.
+7. **Revisa que los nombres de variable están completos** (hubo un `UR` en vez de `URL`).
+8. **Pasar atajos del Mac al iPhone:** iCloud puede tardar mucho; usa clic derecho → Compartir → **AirDrop**. No compartas por enlace de iCloud: el atajo lleva el token dentro.
+
 ---
 
 ## 1. Atajo «Apuntar gasto»
@@ -43,9 +64,9 @@ Crear atajo nuevo → nombre **Apuntar gasto**. En sus ajustes (ⓘ): activa **M
 8. **Establecer variable** `Menú` (con el resultado anterior).
 9. **Obtener valor del diccionario** → *Valor* para la clave "principales" en `Menú`.
 10. **Elegir de la lista** → solicitud: "`Importe` · `Concepto`" → **Establecer variable** `Carpeta`.
-11. **Si** `Carpeta` **es** "Más…"
-    1. **Obtener valor del diccionario** → "todas" en `Menú`.
-    2. **Elegir de la lista** → solicitud "Todas las carpetas" → **Establecer variable** `Carpeta`.
+11. **Si** `Carpeta` **contiene** "Más" *(no uses "es": "…" es un único carácter y no coincide con tres puntos)*
+    1. **Obtener valor del diccionario** → "todas" en `Menú` → **Establecer variable** `Todas`.
+    2. **Elegir de la lista** sobre la variable `Todas` → solicitud "Todas las carpetas" → **Establecer variable** `Carpeta` (a *Ítem seleccionado*).
 12. **Finalizar si**
 
 ### Bloque D — Nota para «Otros»
@@ -77,10 +98,9 @@ Crear atajo nuevo → nombre **Apuntar gasto**. En sus ajustes (ⓘ): activa **M
       | nota | `Nota` |
       | origen | `Origen` |
 18. **Establecer variable** `Respuesta`.
-19. **Obtener valor del diccionario** → "ok" en `Respuesta`.
-20. **Si** (resultado) **es** "1" *(en algunas versiones aparece como "Verdadero"; si no funciona, usa* **contiene** *"1")*
-    1. **Obtener valor del diccionario** → "mensaje" en `Respuesta`.
-    2. **Mostrar notificación** → "✅ Guardado: " + (resultado).
+19. **Obtener valor del diccionario** → "mensaje" en `Respuesta`.
+20. **Si** (Valor del diccionario) **tiene algún valor** *(la API solo devuelve `mensaje` cuando ha ido bien)*
+    1. **Mostrar notificación** → "✅ Guardado: " + (Valor del diccionario).
 21. **De lo contrario**
     1. **Obtener valor del diccionario** → "error" en `Respuesta`.
     2. **Mostrar alerta** → "❌ No se ha guardado: " + (resultado).
@@ -119,8 +139,8 @@ Paga algo pequeño con Apple Pay (un café). Debe aparecer el menú de carpetas 
 
 1. **Texto** → URL → **Establecer variable** `URL`. **Texto** → TOKEN → **Establecer variable** `TOKEN`.
 2. **Texto** → `URL`?accion=menu&token=`TOKEN` → **Obtener contenido de URL**.
-3. **Obtener valor del diccionario** → "viajes".
-4. **Elegir de la lista** → solicitud "¿Qué viaje está activo?" → **Establecer variable** `Viaje`.
+3. **Obtener valor del diccionario** → "viajes" en *Contenido de URL* → **Establecer variable** `Viajes`.
+4. **Elegir de la lista** sobre la variable `Viajes` → solicitud "¿Qué viaje está activo?" → **Establecer variable** `Viaje` (a *Ítem seleccionado*).
 5. **Obtener contenido de URL** → `URL`, método **POST**, cuerpo **JSON**: token=`TOKEN`, accion="viaje", viaje=`Viaje`.
 6. **Obtener valor del diccionario** → "mensaje" → **Mostrar notificación**.
 
