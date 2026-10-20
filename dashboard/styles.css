@@ -1,0 +1,153 @@
+/* Paleta: tokens claros en :root, oscuros solo redefinen los mismos tokens. */
+:root {
+  color-scheme: light;
+  --fondo: #f3f2ef;
+  --superficie: #fcfcfb;
+  --borde: #e2e0da;
+  --texto: #0b0b0b;
+  --texto-2: #52514e;
+  --texto-3: #7a7873;
+  --acento: #2a78d6;        /* serie única de los gráficos */
+  --acento-suave: #d6e6f8;  /* pista de las barras */
+  --rejilla: #e9e7e2;
+  --sube: #b42318;          /* gastar más = malo */
+  --baja: #0a7a3b;
+  --radio: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --fondo: #111110;
+    --superficie: #1a1a19;
+    --borde: #2e2d2b;
+    --texto: #f0efec;
+    --texto-2: #c3c2b7;
+    --texto-3: #8f8e86;
+    --acento: #3987e5;
+    --acento-suave: #1f3550;
+    --rejilla: #2a2927;
+    --sube: #f27a6e;
+    --baja: #4fc47f;
+  }
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--fondo);
+  color: var(--texto);
+  font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding: env(safe-area-inset-top, 0px) 16px calc(env(safe-area-inset-bottom, 0px) + 24px);
+}
+[hidden] { display: none !important; }
+
+.contenedor { max-width: 760px; margin: 0 auto; padding-block: 12px; }
+h1 { font-size: 1.6rem; margin: 8px 0; }
+h2 { font-size: 1rem; margin: 0 0 10px; }
+.texto-secundario { color: var(--texto-2); }
+.error { color: var(--sube); }
+
+.tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 16px;
+  margin: 12px 0;
+}
+
+/* Botones y campos */
+button, input { font: inherit; color: inherit; }
+.boton, .boton-principal, .boton-icono {
+  border: 1px solid var(--borde);
+  background: var(--superficie);
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.boton-principal { background: var(--acento); border-color: var(--acento); color: #fff; }
+.boton-icono { width: 40px; height: 40px; padding: 0; font-size: 1.2rem; }
+.fila-botones { display: flex; gap: 8px; flex-wrap: wrap; }
+label { display: block; margin-bottom: 12px; color: var(--texto-2); }
+input[type=url], input[type=password], input[type=search], input[type=date] {
+  display: block; width: 100%; margin-top: 4px;
+  padding: 10px 12px; border-radius: 10px;
+  border: 1px solid var(--borde); background: var(--fondo);
+}
+
+/* Cabecera y filtros */
+.cabecera { display: flex; align-items: center; justify-content: space-between; }
+.acciones-cabecera { display: flex; gap: 8px; }
+.estado { margin: 0; min-height: 1.2em; font-size: 0.85rem; }
+.filtros { margin-top: 8px; }
+.segmentado {
+  display: flex; flex-wrap: wrap; gap: 4px;
+  background: var(--superficie); border: 1px solid var(--borde);
+  border-radius: 12px; padding: 4px;
+}
+.segmentado button {
+  flex: 1 0 auto; border: 0; background: transparent;
+  padding: 8px 8px; border-radius: 8px; cursor: pointer; white-space: nowrap;
+  color: var(--texto-2);
+}
+.segmentado button[aria-pressed=true] { background: var(--acento); color: #fff; }
+.fechas-custom { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.fechas-custom label { flex: 1 1 140px; margin: 0; }
+
+.migas { margin-top: 12px; font-size: 0.95rem; }
+.migas button { border: 0; background: none; color: var(--acento); padding: 0; cursor: pointer; }
+.migas .sep { color: var(--texto-3); margin: 0 6px; }
+
+/* Resumen */
+.resumen .etiqueta { color: var(--texto-2); }
+.cifra-grande { font-size: 3rem; font-weight: 600; line-height: 1.1; margin: 4px 0; }
+.resumen-detalle { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.9rem; }
+.delta-sube { color: var(--sube); }
+.delta-baja { color: var(--baja); }
+
+/* Barras por carpeta (HTML, una sola serie) */
+.pista { margin: -6px 0 10px; font-size: 0.85rem; }
+.barras { list-style: none; margin: 0; padding: 0; }
+.barras li { margin: 0; }
+.barras button {
+  width: 100%; text-align: left; border: 0; background: none; cursor: pointer;
+  padding: 8px 4px; border-radius: 8px; display: block;
+}
+.barras button:hover, .barras button:focus-visible { background: var(--fondo); }
+.barras button:disabled { cursor: default; }
+.barras button:disabled:hover { background: none; }
+.barra-fila { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.barra-valor { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.barra-valor small { color: var(--texto-3); margin-left: 6px; }
+.barra-pista { height: 10px; background: var(--acento-suave); border-radius: 4px; overflow: hidden; }
+.barra-relleno { height: 100%; background: var(--acento); border-radius: 0 4px 4px 0; }
+
+.grafico-caja { position: relative; height: 220px; }
+
+/* Viajes */
+.viajes { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+.viajes button {
+  width: 100%; text-align: left; cursor: pointer;
+  border: 1px solid var(--borde); background: var(--fondo);
+  border-radius: 12px; padding: 12px;
+}
+.viaje-nombre { font-weight: 600; }
+.viaje-total { font-size: 1.3rem; font-weight: 600; margin: 2px 0; }
+.viaje-fechas { font-size: 0.8rem; color: var(--texto-2); }
+.insignia { font-size: 0.7rem; padding: 1px 6px; border-radius: 6px; border: 1px solid var(--borde); color: var(--texto-2); margin-left: 6px; font-weight: 400; }
+
+/* Lista de gastos */
+.filtros-lista { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+.filtros-lista input[type=search] { flex: 1 1 200px; margin: 0; }
+.check { display: flex; align-items: center; gap: 6px; margin: 0; white-space: nowrap; }
+.gastos { list-style: none; margin: 0; padding: 0; }
+.gastos li {
+  display: flex; justify-content: space-between; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--rejilla);
+}
+.gastos li:last-child { border-bottom: 0; }
+.gasto-concepto { font-weight: 500; overflow-wrap: anywhere; }
+.gasto-meta { font-size: 0.82rem; color: var(--texto-2); }
+.gasto-nota { font-size: 0.82rem; color: var(--texto-3); font-style: italic; }
+.gasto-importe { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 500; }
+.vacio { color: var(--texto-3); padding: 8px 0; }

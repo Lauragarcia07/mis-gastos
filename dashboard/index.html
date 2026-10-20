@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mis gastos</title>
+  <meta name="theme-color" content="#fcfcfb" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1a19" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Gastos">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icono.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icono-180.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
+  <script src="config.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- Pantalla de configuración (primera vez o desde ⚙︎) -->
+  <section id="pantalla-config" class="contenedor" hidden>
+    <h1>Mis gastos</h1>
+    <p class="texto-secundario">Conecta el dashboard con tu hoja. Solo hace falta una vez en cada dispositivo.</p>
+    <form id="form-config" class="tarjeta">
+      <label>URL de la API
+        <input id="campo-url" type="url" placeholder="https://script.google.com/macros/s/…/exec" required>
+      </label>
+      <label>Clave secreta (token)
+        <input id="campo-token" type="password" autocomplete="off" required>
+      </label>
+      <p id="error-config" class="error" hidden></p>
+      <div class="fila-botones">
+        <button type="submit" class="boton-principal">Guardar y entrar</button>
+        <button type="button" id="boton-cancelar-config" class="boton" hidden>Cancelar</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Dashboard -->
+  <main id="pantalla-dashboard" class="contenedor" hidden>
+    <header class="cabecera">
+      <h1>Mis gastos</h1>
+      <div class="acciones-cabecera">
+        <button id="boton-recargar" class="boton-icono" title="Recargar" aria-label="Recargar">↻</button>
+        <button id="boton-ajustes" class="boton-icono" title="Ajustes" aria-label="Ajustes">⚙︎</button>
+      </div>
+    </header>
+
+    <p id="estado" class="texto-secundario estado" aria-live="polite"></p>
+
+    <div class="filtros" role="group" aria-label="Periodo">
+      <div class="segmentado" id="selector-periodo">
+        <button data-periodo="mes">Este mes</button>
+        <button data-periodo="mesAnterior">Mes anterior</button>
+        <button data-periodo="anio">Este año</button>
+        <button data-periodo="todo">Todo</button>
+        <button data-periodo="custom">Fechas…</button>
+      </div>
+      <div id="fechas-custom" class="fechas-custom" hidden>
+        <label>Desde <input type="date" id="fecha-desde"></label>
+        <label>Hasta <input type="date" id="fecha-hasta"></label>
+      </div>
+    </div>
+
+    <nav id="migas" class="migas" aria-label="Carpeta seleccionada"></nav>
+
+    <section class="tarjeta resumen">
+      <div class="etiqueta" id="resumen-etiqueta">Total</div>
+      <div class="cifra-grande" id="resumen-total">—</div>
+      <div class="resumen-detalle">
+        <span id="resumen-delta"></span>
+        <span id="resumen-num" class="texto-secundario"></span>
+      </div>
+    </section>
+
+    <section class="tarjeta" id="seccion-carpetas">
+      <h2 id="titulo-carpetas">Por carpeta</h2>
+      <p class="texto-secundario pista">Toca una carpeta para ver el detalle.</p>
+      <ul id="lista-carpetas" class="barras"></ul>
+    </section>
+
+    <section class="tarjeta">
+      <h2 id="titulo-evolucion">Últimos 12 meses</h2>
+      <div class="grafico-caja"><canvas id="grafico-meses" role="img" aria-label="Gasto por mes en los últimos 12 meses"></canvas></div>
+    </section>
+
+    <section class="tarjeta" id="seccion-viajes">
+      <h2>Viajes</h2>
+      <ul id="lista-viajes" class="viajes"></ul>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Gastos</h2>
+      <div class="filtros-lista">
+        <input id="buscador" type="search" placeholder="Buscar concepto o nota…">
+        <label class="check"><input type="checkbox" id="solo-otros"> Solo «Otros»</label>
+      </div>
+      <ul id="lista-gastos" class="gastos"></ul>
+      <button id="boton-ver-mas" class="boton" hidden>Ver más</button>
+    </section>
+  </main>
+</body>
+</html>

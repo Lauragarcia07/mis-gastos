@@ -1,0 +1,5 @@
+.DS_Store
+node_modules/
+# Nunca subir el token
+*.token
+.env
