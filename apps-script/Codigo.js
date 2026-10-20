@@ -203,7 +203,9 @@ function construirMenu_() {
     const e = etiqueta_(c);
     if (c.mas_usada && principales.indexOf(e) === -1) principales.push(e);
   });
-  principales.push(OPCION_MAS);
+  // "Más…" solo tiene sentido si queda alguna carpeta fuera del menú rápido.
+  const faltaAlguna = todas.some(function (e) { return principales.indexOf(e) === -1; });
+  if (faltaAlguna) principales.push(OPCION_MAS);
 
   const viajes = [SIN_VIAJE].concat(activas
     .filter(function (c) { return c.carpeta === 'Viajes' && c.subcarpeta && c.subcarpeta !== 'Otros'; })

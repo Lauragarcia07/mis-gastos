@@ -30,7 +30,7 @@ Listas para "Elegir de la lista" en Atajos.
   "viajeActivo": "Islandia"
 }
 ```
-- `principales`: viaje activo (si hay) + carpetas con `mas_usada` + `"Más…"` al final.
+- `principales`: viaje activo (si hay) + carpetas con `mas_usada` + `"Más…"` al final (solo si queda alguna carpeta fuera del menú rápido).
 - `todas`: todas las carpetas no archivadas, en el orden de la hoja.
 - `viajes`: `"Ninguno"` + subcarpetas de Viajes no archivadas (excepto `Otros`).
 
