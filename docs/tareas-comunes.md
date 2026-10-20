@@ -26,6 +26,8 @@ Marca/desmarca `mas_usada` en **Carpetas**. El orden del menú es el orden de la
 ## Corregir o borrar un gasto
 Directamente en la pestaña **Gastos**: edita la celda o borra la fila entera. No toques la columna `id`.
 
+Una IA puede hacerlo por API: buscar el `id` con `accion=datos` y usar `accion: "editar"` (o `"borrar"`). Ver [`api.md`](api.md).
+
 ## Cambiar el token (si se ha filtrado)
 1. Editor de Apps Script (hoja → Extensiones → Apps Script) → función `regenerarToken` → ▶ Ejecutar → copia el token del registro.
 2. Cambia el token en los atajos **Apuntar gasto** y **Viaje activo**.

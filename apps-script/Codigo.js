@@ -135,6 +135,7 @@ function doPost(e) {
       case 'anadir': return anadirGasto_(cuerpo);
       case 'viaje': return cambiarViajeActivo_(cuerpo.viaje);
       case 'borrar': return borrarGasto_(cuerpo.id);
+      case 'editar': return editarGasto_(cuerpo);
       default: throw new Error('Acción desconocida: ' + cuerpo.accion);
     }
   });
@@ -284,6 +285,41 @@ function borrarGasto_(id) {
     }
   }
   throw new Error('No existe ningún gasto con id ' + id);
+}
+
+/**
+ * Cambia campos de un gasto existente. Solo se tocan los campos que vengan:
+ * carpeta ("Ocio / Deporte"), importe, concepto, nota, fecha.
+ */
+function editarGasto_(d) {
+  const id = String(d.id || '').trim();
+  if (!id) throw new Error('Falta el id del gasto');
+  const col = function (nombre) { return COLUMNAS_GASTOS.indexOf(nombre) + 1; };
+  const hoja = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(HOJA_GASTOS);
+  const ids = hoja.getRange(1, 1, hoja.getLastRow(), 1).getValues();
+  let fila = -1;
+  for (let i = 1; i < ids.length; i++) {
+    if (String(ids[i][0]) === id) { fila = i + 1; break; }
+  }
+  if (fila === -1) throw new Error('No existe ningún gasto con id ' + id);
+
+  if (d.carpeta !== undefined) {
+    const destino = resolverCarpeta_(d.carpeta);
+    hoja.getRange(fila, col('carpeta'), 1, 2).setValues([[destino.carpeta, destino.subcarpeta]]);
+  }
+  if (d.importe !== undefined) {
+    const importe = Math.round(parsearImporte_(d.importe) * 100) / 100;
+    if (!(importe > 0)) throw new Error('El importe tiene que ser mayor que 0');
+    hoja.getRange(fila, col('importe')).setValue(importe);
+  }
+  if (d.concepto !== undefined) hoja.getRange(fila, col('concepto')).setValue(String(d.concepto).trim());
+  if (d.nota !== undefined) hoja.getRange(fila, col('nota')).setValue(String(d.nota).trim());
+  if (d.fecha !== undefined) {
+    const fecha = new Date(d.fecha);
+    if (isNaN(fecha.getTime())) throw new Error('Fecha no válida: ' + d.fecha);
+    hoja.getRange(fila, col('fecha')).setValue(fecha);
+  }
+  return { id: id, mensaje: 'Gasto actualizado' };
 }
 
 // ───────────────────────────── Utilidades ─────────────────────────────

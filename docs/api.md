@@ -69,6 +69,22 @@ Respuesta:
 {"ok":true,"id":"5630fab1","mensaje":"Gasto borrado"}
 ```
 
+## POST `accion: "editar"`
+Cambia campos de un gasto existente. Solo se modifican los campos que se envían.
+`{"token":"…","accion":"editar","id":"1ddbbf72","carpeta":"Ocio / Deporte","nota":""}`
+
+| Campo | Descripción |
+|---|---|
+| `id` | Obligatorio |
+| `carpeta` | Etiqueta `"Carpeta / Subcarpeta"`; tiene que existir en Carpetas |
+| `importe` | Importe final (tu parte) |
+| `concepto`, `nota` | Texto (vacío para borrarlo) |
+| `fecha` | ISO |
+
+```json
+{"ok":true,"id":"1ddbbf72","mensaje":"Gasto actualizado"}
+```
+
 ## Funciones para ejecutar desde el editor de Apps Script
 - `configurar()` — crea pestañas que falten, carpetas iniciales y token. Idempotente.
 - `regenerarToken()` — crea un token nuevo (el anterior deja de valer).
